@@ -10,7 +10,7 @@ from pandas.plotting import scatter_matrix
 
 housing_data = pd.read_csv('./csv/housing.csv')
 print(housing_data.head(5))
-print(housing_data.info())
+print(housing_data.info()) 
 
 # Display histogram for all 10 features including the y-column
 housing_data.hist(bins=50, figsize=(15,15))
