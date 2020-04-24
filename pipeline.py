@@ -40,7 +40,8 @@ class DataFrameSelector(BaseEstimator, TransformerMixin):
 	def transform(self, X): return X[self.attribute_names].values
 
 
-"""  This class converts categorical data to nominal data by some means
+""" 
+	 This class converts categorical data to nominal data by some means
 		- text to integers
 		- integers to one hot vectors (encoding style: array of all 0's and one 1)
 """
