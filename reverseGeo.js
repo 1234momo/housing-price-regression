@@ -57,7 +57,7 @@ function main () {
   }
 }
 
-// Get address associated with longitude and latitude coordinates
+// Get address associated with coordinates object, where coordinates={latitude,longitude}
 async function getAddress(coordinates, index) {
   try {
     const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates}&key=${API_KEY}`);
