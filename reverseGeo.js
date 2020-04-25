@@ -26,7 +26,7 @@ function main () {
     .then(({result, row}) => {
 
       // If result is a string, valid address, and the max hasn't been reached, add the address into foundAddresses
-      if (result != null && isValidAddress(result) && numAddresses < max) {
+      if (result !== null && isValidAddress(result) && numAddresses < max) {
         ++numAddresses;
         let observation = [];
         observation.push(row); 
@@ -38,7 +38,7 @@ function main () {
       }  
 
       // Save JSON into CSV
-      if (numAddresses == max) {
+      if (numAddresses === max) {
         stringify(foundAddresses.addresses, function(err, output) {
           fs.writeFile('name.csv', output, 'utf8', function(err) {
             if (err) {
@@ -74,7 +74,7 @@ function isValidAddress(address) {
   let splitAddress = address.split(" ");
   
   // If the first index contains only digits, return true
-  if (splitAddress[0].match(/[^0-9]/) == null) {
+  if (splitAddress[0].match(/[^0-9]/) === null) {
     return true;
   }
   
