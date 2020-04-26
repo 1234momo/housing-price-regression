@@ -32,11 +32,14 @@ for i in addresses.index:
 
         # Note: Tax assessor's values differ from Zillow's Zestimate, which is computed by entering numerous 
         # data points into a proprietary formula, often resulting in a more accurate value estimate.
-        elif type(result.tax_value) == str:
-            print(address + ": " + result.tax_value)
+        elif type(result.tax_value) == str and int(result.tax_year) > 2010:
+            print(address + " tax estimate for year " + result.tax_year + ": " + result.tax_value)
 
         # If no zestimate or tax value, property doesn't exist rip
         else:
             print(address + ": has no zestimate")
     except:
         print(address + ": unable to find an estimate")
+# deep_search_response = zillow_data.get_deep_search_results("1970 Curtis St Berkeley","94702")
+# result = GetDeepSearchResults(deep_search_response)
+# print(result.tax_year)
