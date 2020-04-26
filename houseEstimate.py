@@ -9,7 +9,7 @@ zillow_data = ZillowWrapper('X1-ZWz1fjckjdd8gb_a2eph')
 
 # Array that will collect all found zestimates/tax value
 zestimate_column = []
-# Array that keeps track of indexes where a zestimate couldn't be found (can't mutate the dataframe as we're looping through it)
+# Array that keeps track of indexes where a zestimate couldn't be found (can't mutate the dataframe while looping through it)
 no_zestimate = []
 
 for i in addresses.index:
@@ -56,7 +56,7 @@ for i in addresses.index:
 
 print('Properties with found Zestimates/Tax Values:\n', zestimate_column)
 
-# Dropping the rows where a zestimate/tax value could not be found
+# Dropping the rows where a zestimate/tax value could not be found (.drop takes an array of row indexes)
 addresses.drop(no_zestimate)
 
 # If the amount of rows in DataFrame do not match number of rows in zestimate_column, something weird is happening
