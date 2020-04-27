@@ -32,8 +32,8 @@ class FeatureAdder(BaseEstimator, TransformerMixin):
 # This class allows us to select entire or partial dataframes
 # (i.e. we can control which attributes we want in our pipeline)
 class DataFrameSelector(BaseEstimator, TransformerMixin):
-	def __init__(self, attribute_names):
-		self.attribute_names = attribute_names
+	def __init__(self, feature_names):
+		self.feature_names = feature_names
 	
 	def fit(self, X, y=None): return self
 	
