@@ -83,7 +83,6 @@ for index in addresses['row']:
 
 # Combine the original dataframe with the new dataframe
 combined_df = pd.concat([addresses, original_df], axis=1, join='inner')
-del combined_df['longitude']
-del combined_df['latitude']
+del combined_df['row']
 
 print(combined_df)
