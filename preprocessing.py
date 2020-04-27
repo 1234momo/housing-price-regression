@@ -15,7 +15,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import FeatureUnion
 from sklearn.preprocessing import LabelBinarizer
 
-from house_estimate import *
+# from house_estimate import *
 
 """
 	Various data visualization/KDD techniques to deeply understand the data
@@ -25,7 +25,8 @@ from house_estimate import *
 
 # Loading dataset
 # housing_data = pd.read_csv('./csv/housing.csv')
-housing_data = combined_df
+# housing_data = combined_df
+housing_data = pd.read_csv('./csv/combined_data.csv')
 print('Dataset initially:')
 print(housing_data.head(5), '\n')
 print(housing_data.info()) 
