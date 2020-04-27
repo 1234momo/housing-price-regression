@@ -3,7 +3,7 @@ import pandas as pd
 import types
 
 addresses = pd.read_csv('name.csv')
-original_df= pd.read_csv('./csv/housing copy.csv')
+original_df= pd.read_csv('./csv/housing.csv')
 zillow_data = ZillowWrapper('X1-ZWz1fjckjdd8gb_a2eph')
 
 # Tell pandas to print add rows and columns of a dataframe
@@ -31,7 +31,7 @@ for i in addresses.index:
         # Print zestimate of the property
         if type(result.zestimate_amount) == str:
             print(address + ": " + result.zestimate_amount)
-            zestimate_column.append(result.zestimate_amount)
+            zestimate_column.append(float(result.zestimate_amount))
             # print(zestimate_column)
 
         # If no zestimate, get the tax value
@@ -44,7 +44,7 @@ for i in addresses.index:
         # data points into a proprietary formula, often resulting in a more accurate value estimate.
         elif type(result.tax_value) == str and int(result.tax_year) > 2010:
             print(address + " tax estimate for year " + result.tax_year + ": " + result.tax_value)
-            zestimate_column.append(result.tax_value)
+            zestimate_column.append(float(result.tax_value))
             # print(zestimate_column)
 
         # If no zestimate or tax value, property doesn't exist rip
@@ -83,7 +83,7 @@ for index in addresses['row']:
     data_from_original_df = data_from_original_df.append(data, ignore_index=True)
 
 # Combine the original dataframe with the new dataframe
-combined_df = pd.concat([addresses, data_from_original_df], axis=1, join='inner')
+combined_df = pd.concat([data_from_original_df, addresses], axis=1, join='inner')
 del combined_df['row']
 
 print(combined_df)

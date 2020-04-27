@@ -15,6 +15,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import FeatureUnion
 from sklearn.preprocessing import LabelBinarizer
 
+from house_estimate import *
 
 """
 	Various data visualization/KDD techniques to deeply understand the data
@@ -23,7 +24,8 @@ from sklearn.preprocessing import LabelBinarizer
 
 
 # Loading dataset
-housing_data = pd.read_csv('./csv/housing.csv')
+# housing_data = pd.read_csv('./csv/housing.csv')
+housing_data = combined_df
 print('Dataset initially:')
 print(housing_data.head(5), '\n')
 print(housing_data.info()) 
@@ -35,9 +37,11 @@ print(housing_data.info())
 # Discretization of continuous feature to perform stratified sampling technique (continuous features can't extract a mode for stratisfied sampling)
 housing_data['median_income_cat'] = np.ceil(housing_data['median_income'] / 1.5)
 housing_data['median_income_cat'].where(housing_data['median_income_cat'] < 5, 5.0, inplace=True)
+print('median_income_cat\n', housing_data['median_income_cat'])
+print('unique vals in cat\n', np.unique(housing_data['median_income_cat']))
 
 # STRATIFIED SAMPLING TECHNIQUE
-stratified_split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
+stratified_split = StratifiedShuffleSplit(n_splits=3, test_size=0.2, random_state=42)
 
 for train_index, test_index in stratified_split.split(housing_data, housing_data['median_income_cat']):
 	strat_train_set = housing_data.loc[train_index]
@@ -89,12 +93,13 @@ housing_labels=strat_train_set['median_house_value'].copy()
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
+housing_num = housing_num.drop('address', axis=1) 
 #print(housing_num.head())
 
 
 # Defining the Preprocessing Pipeline
 numerical_features = list(housing_num)
-categorical_features = ['ocean_proximity']
+categorical_features = ['ocean_proximity', 'address']
 
 feature_adder = FeatureAdder(add_bedrooms_per_room = False)
 housing_extra_features = feature_adder.transform(housing_data.values)
