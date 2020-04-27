@@ -74,15 +74,16 @@ else:
 addresses = addresses.reset_index(drop=True)
 
 # Create an empty dataframe that contains only the relevant data of each address in addresses
-column_names = ["housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income", "median_house_value", "ocean_proximity"]
+column_names = ["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income", "median_house_value", "ocean_proximity"]
 data_from_original_df = pd.DataFrame(columns=column_names)
 
+# Retrieve the row data from the original dataset
 for index in addresses['row']:
     data = original_df.iloc[[index]]
-    data_from_original_df = data_from_original_df.append({'housing_median_age' : data['housing_median_age'], 'total_rooms' : data['total_rooms'], 'total_bedrooms' : data['total_bedrooms'], 'population' : data['population'], 'households' : data['households'], 'median_income' : data['median_income'], 'median_house_value' : data['median_house_value'], 'ocean_proximity' : data['ocean_proximity']}, ignore_index=True)
+    data_from_original_df = data_from_original_df.append(data, ignore_index=True)
 
 # Combine the original dataframe with the new dataframe
-combined_df = pd.concat([addresses, original_df], axis=1, join='inner')
+combined_df = pd.concat([addresses, data_from_original_df], axis=1, join='inner')
 del combined_df['row']
 
 print(combined_df)
