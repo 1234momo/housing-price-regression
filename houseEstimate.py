@@ -2,12 +2,13 @@ from pyzillow.pyzillow import ZillowWrapper, GetDeepSearchResults
 import pandas as pd
 import types
 
-
 addresses = pd.read_csv('name.csv')
-original_data= pd.read_csv('./csv/housing.csv')
-
-# TODO: Change the API KEY. This is some1 else's but i can't change my API KEY clearance bc servers r down
+original_df= pd.read_csv('./csv/housing copy.csv')
 zillow_data = ZillowWrapper('X1-ZWz1fjckjdd8gb_a2eph')
+
+# Tell pandas to print add rows and columns of a dataframe
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', None)
 
 # Array that will collect all found zestimates/tax value
 zestimate_column = []
@@ -69,9 +70,20 @@ else:
 	# Otherwise add the zestimates
 	addresses['zestimate/tax_value'] = zestimate_column
 
-print(addresses)
+# Resetting the index of the rows
+addresses = addresses.reset_index(drop=True)
 
+# Create an empty dataframe that contains only the relevant data of each address in addresses
+column_names = ["housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income", "median_house_value", "ocean_proximity"]
+data_from_original_df = pd.DataFrame(columns=column_names)
 
-# deep_search_response = zillow_data.get_deep_search_results("1970 Curtis St Berkeley","94702")
-# result = GetDeepSearchResults(deep_search_response)
-# print(result.tax_year)
+for index in addresses['row']:
+    data = original_df.iloc[[index]]
+    data_from_original_df = data_from_original_df.append({'housing_median_age' : data['housing_median_age'], 'total_rooms' : data['total_rooms'], 'total_bedrooms' : data['total_bedrooms'], 'population' : data['population'], 'households' : data['households'], 'median_income' : data['median_income'], 'median_house_value' : data['median_house_value'], 'ocean_proximity' : data['ocean_proximity']}, ignore_index=True)
+
+# Combine the original dataframe with the new dataframe
+combined_df = pd.concat([addresses, original_df], axis=1, join='inner')
+del combined_df['longitude']
+del combined_df['latitude']
+
+print(combined_df)
