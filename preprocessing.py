@@ -24,7 +24,8 @@ from sklearn.preprocessing import LabelBinarizer
 
 # Loading dataset
 housing_data = pd.read_csv('./csv/housing.csv')
-print(housing_data.head(5))
+print('Dataset initially:')
+print(housing_data.head(5), '\n')
 print(housing_data.info()) 
 
 
@@ -61,7 +62,7 @@ plt.legend()
 
 # Seeing correlation of 'medial house value' with other columns (Pearson's Correlation Coefficient)
 corr_matrix = housing_data.corr()
-print('Correlation Matrix before Data Preprocessing')
+print('\nCorrelation Matrix before Data Preprocessing')
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
 
 
@@ -77,7 +78,7 @@ housing_data['population_per_household'] = housing_data['population'] / housing_
 
 # Seeing correlation of 'medial house value' with other columns again (Pearson's correlation coefficient)
 corr_matrix = housing_data.corr()
-print('Correlation Matric after Data Preprocessing')
+print('\nCorrelation Matrix after Data Preprocessing')
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
 
 
@@ -88,7 +89,7 @@ housing_labels=strat_train_set['median_house_value'].copy()
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
-print(housing_num.head())
+#print(housing_num.head())
 
 
 # Defining the Preprocessing Pipeline
@@ -119,6 +120,6 @@ full_pipeline = FeatureUnion(transformer_list=[
 ])
 
 housing_data_prepared = full_pipeline.fit_transform(housing_data)
-print(housing_data_prepared)
+print('\nDataframe after Preprocessing Pipeline:\n', housing_data_prepared)
 
 #plt.show()
