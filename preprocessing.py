@@ -35,6 +35,8 @@ print(housing_data.info())
 # Discretization of continuous feature to perform stratified sampling technique (continuous features can't extract a mode for stratisfied sampling)
 housing_data['median_income_cat'] = np.ceil(housing_data['median_income'] / 1.5)
 housing_data['median_income_cat'].where(housing_data['median_income_cat'] < 5, 5.0, inplace=True)
+print('median_income_cat\n', housing_data['median_income_cat'])
+print('unique vals in cat\n', np.unique(housing_data['median_income_cat']))
 
 # STRATIFIED SAMPLING TECHNIQUE
 stratified_split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
