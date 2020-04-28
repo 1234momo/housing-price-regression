@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import LabelBinarizer
+from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 rooms_ix, bedrooms_ix, population_ix, household_ix = 3, 4, 5, 6
 
 """
@@ -56,3 +56,13 @@ class MyLabelBinarizer(TransformerMixin):
 	def transform(self, x, y=0): return self.encoder.transform(x)
 
 
+# This class does the same thing but works for Mulilabel target data
+class MyMultiLabelBinarizer(TransformerMixin):
+	def __init__(self, *args, **kwargs):
+		self.encoder = MultiLabelBinarizer(*args, **kwargs)
+
+	def fit(self, x, y=0):
+		self.encoder.fit(x)
+		return self
+
+	def transform(self, x, y=0): return self.encoder.transform(x)

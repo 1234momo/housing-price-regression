@@ -13,7 +13,7 @@ from pipeline import *
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import FeatureUnion
-from sklearn.preprocessing import LabelBinarizer
+from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 
 # from house_estimate import *
 
@@ -100,7 +100,8 @@ housing_num = housing_num.drop('address', axis=1)
 
 # Defining the Preprocessing Pipeline
 numerical_features = list(housing_num)
-categorical_features = ['ocean_proximity', 'address']
+categorical_features = ['ocean_proximity']
+multilabel_categorical_features = ['address']
 
 feature_adder = FeatureAdder(add_bedrooms_per_room = False)
 housing_extra_features = feature_adder.transform(housing_data.values)
@@ -119,10 +120,17 @@ categorical_pipeline = Pipeline([
 	('label_binarizer', MyLabelBinarizer())
 ])
 
+# Address is multi-output, so needs its own special pipeline
+multilabel_categorical_pipeline = Pipeline([
+	('selector', DataFrameSelector(multilabel_categorical_features)),
+	('multilabel_binarizer', MyMultiLabelBinarizer())
+])
+
 # Full pipeline
 full_pipeline = FeatureUnion(transformer_list=[
 	('num_pipeline', numerical_pipeline),
-	('cat_pipeline', categorical_pipeline)
+	('cat_pipeline', categorical_pipeline),
+	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
 ])
 
 housing_data_prepared = full_pipeline.fit_transform(housing_data)
