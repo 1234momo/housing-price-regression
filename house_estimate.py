@@ -86,6 +86,6 @@ for index in addresses['row']:
 combined_df = pd.concat([data_from_original_df, addresses], axis=1, join='inner')
 del combined_df['row']
 
-combined_df.to_csv('combined_data.csv', index=False)
+# combined_df.to_csv('combined_data_address_as_zip.csv', index=False)
 
 print(combined_df)
