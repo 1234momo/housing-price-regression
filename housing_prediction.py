@@ -11,20 +11,20 @@ from preprocessing import *
 
 # Linear Regression with K-fold cross-validation (across 10 folds)
 linear_regression = LinearRegression()
-linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, scoring='neg_mean_squared_error', cv=10)
+linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, cv=10)
 # Computing RMSE to get rid of negative score values
-linear_rmse_scores = np.sqrt(-linear_regression_scores)
+#linear_rmse_scores = np.sqrt(-linear_regression_scores)
 print('LINEAR REGRESSION PERFORMANCE ACROSS 10 FOLDS:')
-print('Mean:\t\t\t ', linear_rmse_scores.mean(), '\nStandard Deviation:\t', linear_rmse_scores.std())
+print('Mean:\t\t\t ', linear_regression_scores.mean(), '\nStandard Deviation:\t', linear_regression_scores.std())
 
 
 # Decision-Tree Regression with k-fold cross-validation
 decision_tree = DecisionTreeRegressor()
-decision_tree_scores = cross_val_score(decision_tree, housing_data_prepared, housing_labels, scoring='neg_mean_squared_error', cv=10)
+decision_tree_scores = cross_val_score(decision_tree, housing_data_prepared, housing_labels, cv=10)
 # Computing the RMSE to get rid of negative score values
-decision_rmse_scores = np.sqrt(-decision_tree_scores)
+#decision_rmse_scores = np.sqrt(-decision_tree_scores)
 print('DECISION-TREE REGRESSION PERFORMANCE ACROSS 10 FOLDS:')
-print('Mean:\t\t\t ', decision_rmse_scores.mean(), '\nStandard Deviation:\t', decision_rmse_scores.std())
+print('Mean:\t\t\t ', decision_tree_scores.mean(), '\nStandard Deviation:\t', decision_tree_scores.std())
 
 
 # Random Forest Regression
@@ -36,7 +36,7 @@ RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
 				min_samples_split=2, min_weight_fraction_leaf=0.0, n_estimators=10, n_jobs=None, 
 				oob_score=False, random_state=None, verbose=0, warm_start=False)
 
-forest_regression_scores = cross_val_score(forest_regression, housing_data_prepared, housing_labels, scoring='neg_mean_squared_error', cv=10)
-forest_rmse_scores = np.sqrt(-forest_regression_scores)
-print('RANDOM-FOREST REGRESSION PERFORMANCE(MAX-DEPTH=5):')
-print('Mean:\t\t\t ', forest_rmse_scores.mean(), '\nStandard Deviation:\t', forest_rmse_scores.std())
+forest_regression_scores = cross_val_score(forest_regression, housing_data_prepared, housing_labels, cv=10)
+#forest_rmse_scores = np.sqrt(-forest_regression_scores)
+print('RANDOM-FOREST REGRESSION PERFORMANCE:')
+print('Mean:\t\t\t ', forest_regression_scores.mean(), '\nStandard Deviation:\t', forest_regression_scores.std())
