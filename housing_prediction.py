@@ -1,6 +1,8 @@
 import numpy as np
 
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
@@ -16,6 +18,30 @@ linear_regression_scores = cross_val_score(linear_regression, housing_data_prepa
 #linear_rmse_scores = np.sqrt(-linear_regression_scores)
 print('LINEAR REGRESSION PERFORMANCE ACROSS 10 FOLDS:')
 print('Mean:\t\t\t ', linear_regression_scores.mean(), '\nStandard Deviation:\t', linear_regression_scores.std())
+
+"""
+# Logistic Regression with K-fold cross-validation
+logistic_regression = LogisticRegression()
+logistic_regression_scores = cross_val_score(logistic_regression, housing_data_prepared, housing_labels, cv=10)
+#logistic_rmse_scores = np.sqrt(-logistic_regression_scores)
+print('LOGISTIC REGRESSION PERFORMANCE ACROSS 10 FOLDS')
+print('Mean:\t\t\t ', logistic_regression_scores.mean(), '\nStandard Deviation:\t', logistic_regression_scores.std())
+"""
+
+# KNN Regression with K-fold cross-validation
+knn_regression = KNeighborsRegressor()
+knn_regression_scores = cross_val_score(knn_regression, housing_data_prepared, housing_labels, cv=10)
+#knn_rmse_scores = np.sqrt(-knn_regression_scores)
+print('KNN REGRESSION PERFORMANCE ACROSS 10 FOLDS')
+print('Mean:\t\t\t ', knn_regression_scores.mean(), '\nStandard Deviation:\t', knn_regression_scores.std())
+
+
+# Support Vector Regression (SVR) with K-fold cross-validation
+sv_regression = SVR()
+svr_scores = cross_val_score(sv_regression, housing_data_prepared, housing_labels, cv=10)
+#svr_rmse_scores = np.sqrt(-svr_scores)
+print('SUPPORT VECTOR REGRESSION PERFORMANCE ACROSS 10 FOLDS')
+print('Mean:\t\t\t ', svr_scores.mean(), '\nStandard Deviation:\t', svr_scores.std())
 
 
 # Decision-Tree Regression with k-fold cross-validation
@@ -38,5 +64,5 @@ RandomForestRegressor(bootstrap=True, criterion='mse', max_depth=None,
 
 forest_regression_scores = cross_val_score(forest_regression, housing_data_prepared, housing_labels, cv=10)
 #forest_rmse_scores = np.sqrt(-forest_regression_scores)
-print('RANDOM-FOREST REGRESSION PERFORMANCE:')
+print('RANDOM-FOREST REGRESSION PERFORMANCE ACROSS 10 FOLDS:')
 print('Mean:\t\t\t ', forest_regression_scores.mean(), '\nStandard Deviation:\t', forest_regression_scores.std())

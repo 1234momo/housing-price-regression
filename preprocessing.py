@@ -92,10 +92,10 @@ print(corr_matrix['median_house_value'].sort_values(ascending=False))
 # housing_data = strat_train_set.drop("median_house_value", axis=1)
 # housing_labels = strat_train_set['median_house_value'].copy()
 housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
-housing_labels=strat_train_set['zestimate/tax_value'].copy()
+housing_labels = strat_train_set['zestimate/tax_value'].copy()
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
-imputer = SimpleImputer(strategy='median')
+# imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
 housing_num = housing_num.drop('city', axis=1) 
 # housing_num = housing_num.drop('address', axis=1) 
