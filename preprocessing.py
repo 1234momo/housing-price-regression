@@ -8,6 +8,9 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from pandas.plotting import scatter_matrix
 from sklearn.impute import SimpleImputer
 
+# for eigenvalue analysis
+from principal_component_analysis import *
+
 # Pipeline imports
 from pipeline import *
 from sklearn.pipeline import Pipeline
