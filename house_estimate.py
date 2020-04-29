@@ -95,8 +95,10 @@ for i in addresses.index:
 
     zipcodeElement = splitAddress[-2:-1][0]
     zipcodeElementSplitted = zipcodeElement.split(" ")
-    zipcode = zipcodeElementSplitted[2]
-    city = splitAddress[1]
+
+    zipcode = int(zipcodeElementSplitted[2])
+    city = splitAddress[1].strip()
+
     city_and_zip_df = city_and_zip_df.append({'zip' : zipcode, 'city' : city}, ignore_index=True)
 
 combined_df = pd.concat([combined_df, city_and_zip_df], axis=1, join='inner')

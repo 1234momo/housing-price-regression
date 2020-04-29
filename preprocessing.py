@@ -24,9 +24,10 @@ from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 
 
 # Loading dataset
-housing_data = pd.read_csv('./csv/housing.csv')
+# housing_data = pd.read_csv('./csv/housing.csv')
 # housing_data = combined_df
 # housing_data = pd.read_csv('./csv/combined_data.csv')
+housing_data = pd.read_csv('combined_data_zip_city.csv')
 print('Dataset initially:')
 print(housing_data.head(5), '\n')
 print(housing_data.info()) 
@@ -88,14 +89,15 @@ print(corr_matrix['median_house_value'].sort_values(ascending=False))
 
 
 # Creating a training and testing set
-# housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
-# housing_labels=strat_train_set['zestimate/tax_value'].copy()
-housing_data = strat_train_set.drop("median_house_value", axis=1)
-housing_labels = strat_train_set['median_house_value'].copy()
+# housing_data = strat_train_set.drop("median_house_value", axis=1)
+# housing_labels = strat_train_set['median_house_value'].copy()
+housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
+housing_labels=strat_train_set['zestimate/tax_value'].copy()
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
+housing_num = housing_num.drop('city', axis=1) 
 # housing_num = housing_num.drop('address', axis=1) 
 #print(housing_num.head())
 
@@ -104,6 +106,7 @@ housing_num = housing_data.drop('ocean_proximity', axis=1)
 numerical_features = list(housing_num)
 categorical_features = ['ocean_proximity']
 # multilabel_categorical_features = ['address']
+multilabel_categorical_features = ['city']
 
 feature_adder = FeatureAdder(add_bedrooms_per_room = False)
 housing_extra_features = feature_adder.transform(housing_data.values)
@@ -123,15 +126,16 @@ categorical_pipeline = Pipeline([
 ])
 
 # Address is multi-output, so needs its own special pipeline
-# multilabel_categorical_pipeline = Pipeline([
-# 	('selector', DataFrameSelector(multilabel_categorical_features)),
-# 	('multilabel_binarizer', MyMultiLabelBinarizer())
-# ])
+multilabel_categorical_pipeline = Pipeline([
+	('selector', DataFrameSelector(multilabel_categorical_features)),
+	('multilabel_binarizer', MyMultiLabelBinarizer())
+])
 
 # Full pipeline
 full_pipeline = FeatureUnion(transformer_list=[
 	('num_pipeline', numerical_pipeline),
-	('cat_pipeline', categorical_pipeline)
+	('cat_pipeline', categorical_pipeline),
+	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
 ])
 
 housing_data_prepared = full_pipeline.fit_transform(housing_data)
