@@ -98,17 +98,10 @@ get_eigenvalues(housing_data.copy())
 """
 
 # Creating a training and testing set
-<<<<<<< HEAD
-housing_data = strat_train_set.drop("median_house_value", axis=1)
-housing_labels = strat_train_set['median_house_value'].copy()
-# housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
-# housing_labels=strat_train_set['zestimate/tax_value'].copy()
-=======
 # housing_data = strat_train_set.drop("median_house_value", axis=1)
 # housing_labels = strat_train_set['median_house_value'].copy()
 housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
 housing_labels = strat_train_set['zestimate/tax_value'].copy()
->>>>>>> 6d89f41fcfc8be7cee93776c0d95bc693c0b2722
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 # imputer = SimpleImputer(strategy='median')
