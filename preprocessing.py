@@ -8,6 +8,9 @@ from sklearn.model_selection import StratifiedShuffleSplit
 from pandas.plotting import scatter_matrix
 from sklearn.impute import SimpleImputer
 
+# for eigenvalue analysis
+from principal_component_analysis import *
+
 # Pipeline imports
 from pipeline import *
 from sklearn.pipeline import Pipeline
@@ -69,8 +72,11 @@ plt.legend()
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix before Data Preprocessing')
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
-
-
+"""
+# Using PCA to view eigenvalues in descending order of all columns (variance)
+print('\nPCA before Data Preprocessing')
+get_eigenvalues(housing_data.copy())
+"""
 
 # Seeing correlation between median house value and the median house income
 #housing_data.plot(kind='scatter', x='median_income', y='median_house_value', alpha=0.1, figsize=(8,5))
@@ -85,16 +91,27 @@ housing_data['population_per_household'] = housing_data['population'] / housing_
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix after Data Preprocessing')
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
-
+"""
+# Using PCA to view eigenvalues in descending order of all columns (variance)
+print('\nPCA after Data Preprocessing')
+get_eigenvalues(housing_data.copy())
+"""
 
 # Creating a training and testing set
+<<<<<<< HEAD
 housing_data = strat_train_set.drop("median_house_value", axis=1)
 housing_labels = strat_train_set['median_house_value'].copy()
 # housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
 # housing_labels=strat_train_set['zestimate/tax_value'].copy()
+=======
+# housing_data = strat_train_set.drop("median_house_value", axis=1)
+# housing_labels = strat_train_set['median_house_value'].copy()
+housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
+housing_labels = strat_train_set['zestimate/tax_value'].copy()
+>>>>>>> 6d89f41fcfc8be7cee93776c0d95bc693c0b2722
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
-imputer = SimpleImputer(strategy='median')
+# imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
 # housing_num = housing_num.drop('city', axis=1) 
 # housing_num = housing_num.drop('address', axis=1) 
