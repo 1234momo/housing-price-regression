@@ -87,23 +87,23 @@ combined_df = pd.concat([data_from_original_df, addresses], axis=1, join='inner'
 del combined_df['row']
 
 # Create an empty dataframe that contains only the relevant data of each address in addresses
-column_names = ["city", "zip"]
-city_and_zip_df = pd.DataFrame(columns=column_names)
+# column_names = ["city", "zip"]
+# city_and_zip_df = pd.DataFrame(columns=column_names)
 
-for i in addresses.index:
-    splitAddress = addresses['address'][i].split(",")
+# for i in addresses.index:
+#     splitAddress = addresses['address'][i].split(",")
 
-    zipcodeElement = splitAddress[-2:-1][0]
-    zipcodeElementSplitted = zipcodeElement.split(" ")
+#     zipcodeElement = splitAddress[-2:-1][0]
+#     zipcodeElementSplitted = zipcodeElement.split(" ")
 
-    zipcode = int(zipcodeElementSplitted[2])
-    city = splitAddress[1].strip()
+#     zipcode = int(zipcodeElementSplitted[2])
+#     city = splitAddress[1].strip()
 
-    city_and_zip_df = city_and_zip_df.append({'zip' : zipcode, 'city' : city}, ignore_index=True)
+#     city_and_zip_df = city_and_zip_df.append({'zip' : zipcode, 'city' : city}, ignore_index=True)
 
-combined_df = pd.concat([combined_df, city_and_zip_df], axis=1, join='inner')
-del combined_df['address']
+# combined_df = pd.concat([combined_df, city_and_zip_df], axis=1, join='inner')
+# del combined_df['address']
 
-combined_df.to_csv('combined_data_zip_city.csv', index=False)
+combined_df.to_csv('combined_data.csv', index=False)
 
 print(combined_df)

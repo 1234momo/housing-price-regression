@@ -12,7 +12,7 @@ let foundAddresses = {
 };
 foundAddresses['addresses'].push(["row", "address"]);
 var numAddresses = 0;
-var max = 500;
+var max = Number.MAX_VALUE;
 
 // Convert csv to json
 let json = csvToJson.fieldDelimiter(',').getJsonFromCsv("./csv/housing.csv");
@@ -40,7 +40,7 @@ function main () {
       // Save JSON into CSV
       if (numAddresses <= max) {
         stringify(foundAddresses.addresses, function(err, output) {
-          fs.writeFile('name.csv', output, 'utf8', function(err) {
+          fs.writeFile('name2.csv', output, 'utf8', function(err) {
             if (err) {
               console.log('Some error occured - file either not saved or corrupted file saved.');
             } else {
