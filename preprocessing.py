@@ -73,8 +73,11 @@ plt.legend()
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix before Data Preprocessing')
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
-
-
+"""
+# Using PCA to view eigenvalues in descending order of all columns (variance)
+print('\nPCA before Data Preprocessing')
+get_eigenvalues(housing_data.copy())
+"""
 
 # Seeing correlation between median house value and the median house income
 #housing_data.plot(kind='scatter', x='median_income', y='median_house_value', alpha=0.1, figsize=(8,5))
@@ -89,7 +92,11 @@ housing_data['population_per_household'] = housing_data['population'] / housing_
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix after Data Preprocessing')
 print(corr_matrix['median_house_value'].sort_values(ascending=False))
-
+"""
+# Using PCA to view eigenvalues in descending order of all columns (variance)
+print('\nPCA after Data Preprocessing')
+get_eigenvalues(housing_data.copy())
+"""
 
 # Creating a training and testing set
 # housing_data = strat_train_set.drop("median_house_value", axis=1)
