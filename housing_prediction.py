@@ -13,12 +13,8 @@ from preprocessing import *
 
 # Linear Regression with K-fold cross-validation (across 10 folds)
 linear_regression = LinearRegression()
-<<<<<<< HEAD
 linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, scoring='neg_mean_squared_error', cv=10)
 # linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, cv=10)
-=======
-linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, scoring="neg_mean_squared_error", cv=10)
->>>>>>> ea1d5d2ffc61b08192f6e8d7a9991b313a771ef5
 # Computing RMSE to get rid of negative score values
 linear_rmse_scores = np.sqrt(-linear_regression_scores)
 print('LINEAR REGRESSION PERFORMANCE ACROSS 10 FOLDS: (RMSE)')

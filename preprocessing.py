@@ -110,7 +110,7 @@ housing_labels = strat_train_set['median_house_value'].copy()
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 # imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
-housing_num = housing_num.drop('city', axis=1) 
+# housing_num = housing_num.drop('city', axis=1) 
 # housing_num = housing_num.drop('address', axis=1) 
 #print(housing_num.head())
 
@@ -119,7 +119,7 @@ housing_num = housing_num.drop('city', axis=1)
 numerical_features = list(housing_num)
 categorical_features = ['ocean_proximity']
 # multilabel_categorical_features = ['address']
-multilabel_categorical_features = ['city']
+# multilabel_categorical_features = ['city']
 
 feature_adder = FeatureAdder(add_bedrooms_per_room = False)
 housing_extra_features = feature_adder.transform(housing_data.values)
@@ -137,21 +137,26 @@ categorical_pipeline = Pipeline([
 	('selector', DataFrameSelector(categorical_features)),
 	('label_binarizer', MyLabelBinarizer())
 ])
-
+"""
 # Address is multi-output, so needs its own special pipeline
 multilabel_categorical_pipeline = Pipeline([
 	('selector', DataFrameSelector(multilabel_categorical_features)),
 	('multilabel_binarizer', MyMultiLabelBinarizer())
 ])
-
+"""
 # Full pipeline
 full_pipeline = FeatureUnion(transformer_list=[
 	('num_pipeline', numerical_pipeline),
 	('cat_pipeline', categorical_pipeline),
-	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
+#	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
 ])
 
 housing_data_prepared = full_pipeline.fit_transform(housing_data)
 print('\nDataframe after Preprocessing Pipeline:\n', housing_data_prepared)
+
+
+# Using PCA to view eigenvalues in descending order of all columns (variance)
+print('\nPCA after Data Preprocessing')
+get_eigenvalues(housing_data_prepared.copy())
 
 #plt.show()
