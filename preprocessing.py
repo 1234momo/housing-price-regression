@@ -27,9 +27,9 @@ from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 
 
 # Loading dataset
-# housing_data = pd.read_csv('./csv/housing.csv')
+housing_data = pd.read_csv('./csv/housing.csv')
 # housing_data = pd.read_csv('./csv/combined_data.csv')
-housing_data = pd.read_csv('combined_data_zip_city.csv')
+# housing_data = pd.read_csv('combined_data_zip_city.csv')
 print('Dataset initially:')
 print(housing_data.head(5), '\n')
 print(housing_data.info()) 
@@ -98,10 +98,10 @@ get_eigenvalues(housing_data.copy())
 """
 
 # Creating a training and testing set
-# housing_data = strat_train_set.drop("median_house_value", axis=1)
-# housing_labels = strat_train_set['median_house_value'].copy()
-housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
-housing_labels = strat_train_set['zestimate/tax_value'].copy()
+housing_data = strat_train_set.drop('median_house_value', axis=1)
+housing_labels = strat_train_set['median_house_value'].copy()
+# housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
+# housing_labels = strat_train_set['zestimate/tax_value'].copy()
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 # imputer = SimpleImputer(strategy='median')
