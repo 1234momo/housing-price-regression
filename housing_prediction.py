@@ -13,8 +13,8 @@ from preprocessing import *
 
 # Linear Regression with K-fold cross-validation (across 10 folds)
 linear_regression = LinearRegression()
+# linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, scoring='neg_mean_squared_error', cv=10)
 linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, scoring='neg_mean_squared_error', cv=10)
-# linear_regression_scores = cross_val_score(linear_regression, housing_data_prepared, housing_labels, cv=10)
 # Computing RMSE to get rid of negative score values
 linear_rmse_scores = np.sqrt(-linear_regression_scores)
 print('LINEAR REGRESSION PERFORMANCE ACROSS 10 FOLDS: (RMSE)')
@@ -22,14 +22,6 @@ print('Mean:\t\t\t ', linear_rmse_scores.mean(), '\nStandard Deviation:\t', line
 # print('LINEAR REGRESSION PERFORMANCE ACROSS 10 FOLDS: (ACCURACY)')
 # print('Mean:\t\t\t ', linear_regression_scores.mean(), '\nStandard Deviation:\t', linear_regression_scores.std())
 
-"""
-# Logistic Regression with K-fold cross-validation
-logistic_regression = LogisticRegression()
-logistic_regression_scores = cross_val_score(logistic_regression, housing_data_prepared, housing_labels, cv=10)
-#logistic_rmse_scores = np.sqrt(-logistic_regression_scores)
-print('LOGISTIC REGRESSION PERFORMANCE ACROSS 10 FOLDS')
-print('Mean:\t\t\t ', logistic_regression_scores.mean(), '\nStandard Deviation:\t', logistic_regression_scores.std())
-"""
 
 # KNN Regression with K-fold cross-validation
 knn_regression = KNeighborsRegressor()

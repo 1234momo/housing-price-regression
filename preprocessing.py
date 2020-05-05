@@ -28,9 +28,10 @@ pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
 
 # Loading dataset
-housing_data = pd.read_csv('./csv/housing.csv')
+# housing_data = pd.read_csv('./csv/housing.csv')
+# housing_data = pd.read_csv('./csv/housing copy.csv')
 # housing_data = pd.read_csv('./csv/combined_data.csv')
-# housing_data = pd.read_csv('combined_data_zip_city.csv')
+housing_data = pd.read_csv('combined_data_zip_city.csv')
 print('Dataset initially:')
 print(housing_data.head(5), '\n')
 print(housing_data.info()) 
@@ -72,7 +73,7 @@ plt.legend()
 # Seeing correlation of 'medial house value' with other columns (Pearson's Correlation Coefficient)
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix before Data Preprocessing')
-print(corr_matrix['median_house_value'].sort_values(ascending=False))
+print(corr_matrix['zestimate/tax_value'].sort_values(ascending=False))
 """
 # Using PCA to view eigenvalues in descending order of all columns (variance)
 print('\nPCA before Data Preprocessing')
@@ -89,12 +90,12 @@ housing_data['population_per_household'] = housing_data['population'] / housing_
 #print(housing_data.head(3))
 
 # Deleting the lowest correlated features
-# housing_data = housing_data.drop(['total_rooms', 'housing_median_age', 'households', 'total_bedrooms', 'population'], axis = 1)
+housing_data = housing_data.drop(['total_rooms', 'housing_median_age', 'households', 'total_bedrooms', 'population'], axis = 1)
 
 # Seeing correlation of 'medial house value' with other columns again (Pearson's correlation coefficient)
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix after Data Preprocessing')
-print(corr_matrix['median_house_value'].sort_values(ascending=False))
+print(corr_matrix['zestimate/tax_value'].sort_values(ascending=False))
 """
 # Using PCA to view eigenvalues in descending order of all columns (variance)
 print('\nPCA after Data Preprocessing')
@@ -102,15 +103,15 @@ get_eigenvalues(housing_data.copy())
 """
 
 # Creating a training and testing set
-housing_data = strat_train_set.drop('median_house_value', axis=1)
-housing_labels = strat_train_set['median_house_value'].copy()
-# housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
-# housing_labels = strat_train_set['zestimate/tax_value'].copy()
+# housing_data = strat_train_set.drop('median_house_value', axis=1)
+# housing_labels = strat_train_set['median_house_value'].copy()
+housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
+housing_labels = strat_train_set['zestimate/tax_value'].copy()
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 # imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
-# housing_num = housing_num.drop('city', axis=1) 
+housing_num = housing_num.drop('city', axis=1) 
 # housing_num = housing_num.drop('address', axis=1) 
 #print(housing_num.head())
 
@@ -119,7 +120,7 @@ housing_num = housing_data.drop('ocean_proximity', axis=1)
 numerical_features = list(housing_num)
 categorical_features = ['ocean_proximity']
 # multilabel_categorical_features = ['address']
-# multilabel_categorical_features = ['city']
+multilabel_categorical_features = ['city']
 
 feature_adder = FeatureAdder(add_bedrooms_per_room = False)
 housing_extra_features = feature_adder.transform(housing_data.values)
@@ -137,18 +138,18 @@ categorical_pipeline = Pipeline([
 	('selector', DataFrameSelector(categorical_features)),
 	('label_binarizer', MyLabelBinarizer())
 ])
-"""
+
 # Address is multi-output, so needs its own special pipeline
 multilabel_categorical_pipeline = Pipeline([
 	('selector', DataFrameSelector(multilabel_categorical_features)),
 	('multilabel_binarizer', MyMultiLabelBinarizer())
 ])
-"""
+
 # Full pipeline
 full_pipeline = FeatureUnion(transformer_list=[
 	('num_pipeline', numerical_pipeline),
 	('cat_pipeline', categorical_pipeline),
-#	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
+	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
 ])
 
 housing_data_prepared = full_pipeline.fit_transform(housing_data)

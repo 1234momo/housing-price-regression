@@ -19,14 +19,14 @@ let json = csvToJson.fieldDelimiter(',').getJsonFromCsv("./csv/housing.csv");
 
 function main () {
   // Loop to find the addresses
-  for(let i = 0; i < Object.keys(json).length && numAddresses < max; ++i) {
+  for(let i = 0; i < Object.keys(json).length; ++i) {
     let coordinates = `${json[i].latitude},${json[i].longitude}`;
 
     getAddress(coordinates, i)
     .then(({result, row}) => {
 
       // If result is a string, valid address, and the max hasn't been reached, add the address into foundAddresses
-      if (result !== null && isValidAddress(result) && numAddresses < max) {
+      if (result !== null && isValidAddress(result)) {
         ++numAddresses;
         let observation = [];
         observation.push(row); 
@@ -38,7 +38,6 @@ function main () {
       }  
 
       // Save JSON into CSV
-      if (numAddresses <= max) {
         stringify(foundAddresses.addresses, function(err, output) {
           fs.writeFile('name2.csv', output, 'utf8', function(err) {
             if (err) {
@@ -48,10 +47,6 @@ function main () {
             }
           });
         });
-
-        // Increment numAddresses so that this "if" block doesn't run again for other processes
-        ++numAddresses;
-      }
     })
     .catch((error) => {});
   }

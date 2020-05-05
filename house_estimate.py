@@ -4,7 +4,7 @@ import types
 
 addresses = pd.read_csv('name.csv')
 original_df= pd.read_csv('./csv/housing.csv')
-zillow_data = ZillowWrapper('X1-ZWz1fjckjdd8gb_a2eph')
+zillow_data = ZillowWrapper('X1-ZWz179fm6hk64r_5taq0')
 
 # Tell pandas to print add rows and columns of a dataframe
 pd.set_option('display.max_columns', None)
@@ -32,7 +32,6 @@ for i in addresses.index:
         if type(result.zestimate_amount) == str:
             print(address + ": " + result.zestimate_amount)
             zestimate_column.append(float(result.zestimate_amount))
-            # print(zestimate_column)
 
         # If no zestimate, get the tax value
         # TAX ASSESSOR'S VALUE
@@ -42,16 +41,15 @@ for i in addresses.index:
 
         # Note: Tax assessor's values differ from Zillow's Zestimate, which is computed by entering numerous 
         # data points into a proprietary formula, often resulting in a more accurate value estimate.
-        elif type(result.tax_value) == str and int(result.tax_year) > 2010:
+        elif type(result.tax_value) == str and int(result.tax_year) > 2015:
             print(address + " tax estimate for year " + result.tax_year + ": " + result.tax_value)
             zestimate_column.append(float(result.tax_value))
-            # print(zestimate_column)
 
         # If no zestimate or tax value, property doesn't exist rip
         else:
             print(address + ": has no zestimate " + result.tax_value)
             no_zestimate.append(addresses['address'][i])
-			
+
     except:
         print(address + ": unable to find an estimate")
         no_zestimate.append(addresses['address'][i])
