@@ -74,7 +74,7 @@ sns.pairplot(housing_data[['median_house_value', 'median_income', 'longitude', '
 # Seeing correlation of 'medial house value' with other columns (Pearson's Correlation Coefficient)
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix before Data Preprocessing')
-print(corr_matrix['zestimate/tax_value'].sort_values(ascending=False))
+print(corr_matrix['median_house_value'].sort_values(ascending=False))
 
 plt.show()
 """
