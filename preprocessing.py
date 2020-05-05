@@ -18,12 +18,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import FeatureUnion
 from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 
-# from house_estimate import *
 
 """
 	Various data visualization/KDD techniques to deeply understand the data
 	Also includes various data preprocessing techniques and compilation of a pipeline
 """
+
 
 pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
