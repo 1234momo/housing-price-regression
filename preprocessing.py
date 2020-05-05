@@ -24,21 +24,22 @@ from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
 	Various data visualization/KDD techniques to deeply understand the data
 	Also includes various data preprocessing techniques and compilation of a pipeline
 """
+
 pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
 
 # Loading dataset
-# housing_data = pd.read_csv('./csv/housing.csv')
+housing_data = pd.read_csv('./csv/housing.csv')
 # housing_data = pd.read_csv('./csv/housing copy.csv')
 # housing_data = pd.read_csv('./csv/combined_data.csv')
-housing_data = pd.read_csv('combined_data_zip_city.csv')
+# housing_data = pd.read_csv('combined_data_zip_city.csv')
 print('Dataset initially:')
 print(housing_data.head(5), '\n')
 print(housing_data.info()) 
 
 
 # Display histogram for all 10 features including the y-column
-#housing_data.hist(bins=50, figsize=(15,15))
+housing_data.hist(bins=50, figsize=(15,15))
 
 # Discretization of continuous feature to perform stratified sampling technique (continuous features can't extract a mode for stratisfied sampling)
 housing_data['median_income_cat'] = np.ceil(housing_data['median_income'] / 1.5)
@@ -66,20 +67,17 @@ plt.legend()
 
 
 # Using scatter_matrix method to discover correlation amongst all attributes
-#attributes = ['median_house_value', 'median_income', 'total_rooms', 'housing_median_age']
-#scatter_matrix(housing_data[attributes], figsize=(12, 8))
-#sns.pairplot(housing_data[['median_house_value', 'median_income', 'total_rooms', 'housing_median_age']])
+attributes = ['median_house_value', 'median_income', 'longitude', 'latitude']
+scatter_matrix(housing_data[attributes], figsize=(12, 8))
+sns.pairplot(housing_data[['median_house_value', 'median_income', 'longitude', 'latitude']])
 
 # Seeing correlation of 'medial house value' with other columns (Pearson's Correlation Coefficient)
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix before Data Preprocessing')
 print(corr_matrix['zestimate/tax_value'].sort_values(ascending=False))
-"""
-# Using PCA to view eigenvalues in descending order of all columns (variance)
-print('\nPCA before Data Preprocessing')
-get_eigenvalues(housing_data.copy())
-"""
 
+plt.show()
+"""
 # Seeing correlation between median house value and the median house income
 #housing_data.plot(kind='scatter', x='median_income', y='median_house_value', alpha=0.1, figsize=(8,5))
 
@@ -96,11 +94,6 @@ housing_data = housing_data.drop(['total_rooms', 'housing_median_age', 'househol
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix after Data Preprocessing')
 print(corr_matrix['zestimate/tax_value'].sort_values(ascending=False))
-"""
-# Using PCA to view eigenvalues in descending order of all columns (variance)
-print('\nPCA after Data Preprocessing')
-get_eigenvalues(housing_data.copy())
-"""
 
 # Creating a training and testing set
 # housing_data = strat_train_set.drop('median_house_value', axis=1)
@@ -111,16 +104,16 @@ housing_labels = strat_train_set['zestimate/tax_value'].copy()
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
 # imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
-housing_num = housing_num.drop('city', axis=1) 
-# housing_num = housing_num.drop('address', axis=1) 
+housing_num = housing_num.drop('address', axis=1) 
+# housing_num = housing_num.drop('city', axis=1) 
 #print(housing_num.head())
 
 
 # Defining the Preprocessing Pipeline
 numerical_features = list(housing_num)
 categorical_features = ['ocean_proximity']
-# multilabel_categorical_features = ['address']
-multilabel_categorical_features = ['city']
+multilabel_categorical_features = ['address']
+# multilabel_categorical_features = ['city']
 
 feature_adder = FeatureAdder(add_bedrooms_per_room = False)
 housing_extra_features = feature_adder.transform(housing_data.values)
@@ -155,9 +148,10 @@ full_pipeline = FeatureUnion(transformer_list=[
 housing_data_prepared = full_pipeline.fit_transform(housing_data)
 print('\nDataframe after Preprocessing Pipeline:\n', housing_data_prepared)
 
-"""
+
 # Using PCA to view eigenvalues in descending order of all columns (variance)
 print('\nPCA after Data Preprocessing')
 get_eigenvalues(housing_data_prepared.copy())
-"""
+
 #plt.show()
+"""

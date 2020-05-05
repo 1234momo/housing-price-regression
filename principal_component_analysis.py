@@ -2,31 +2,21 @@ import pandas as pd
 import numpy as np
 
 def get_eigenvalues(dataframe):
-	"""
+	
 	# Removing non-numeric columns (shallow copy should have been passed as param)
-	del dataframe['ocean_proximity']
-	del dataframe['city']
-	# converting to zipcode to float so that np.linalg.eig works 
-	dataframe['zip'] = dataframe['zip'].astype(float)		
-"""
+	dataframe = np.delete(dataframe, 9, 1) # Deleting the ocean_proximity col
+	dataframe = np.delete(dataframe, 10, 1) # Deleting the address col
+
 	# calculate the mean of each column (feature)
-	mean = np.mean(dataframe.T, axis=1)
+	mean = np.mean(dataframe, axis=1)
 
 	# center columns by subtracting column means
-	centered_matrix = (dataframe - mean)
+	centered_matrix = (dataframe.T - mean)
 	print(f'Matrix after centering:\n {centered_matrix}')
 	
 	# calculate covariance matrix of centered matrix
 	covariance_matrix = np.cov(centered_matrix.T, rowvar=0, bias=1)
 	print(f'Computed covariance matrix:\n {covariance_matrix}')
-	"""
-	# Removing NaN and inf values
-	covariance_matrix[covariance_matrix == np.inf] = np.nan
-	covariance_matrix[covariance_matrix == -np.inf] = np.nan
-	covariance_matrix = covariance_matrix[~np.isnan(covariance_matrix)]
-	# covariance_matrix.dropna(how='all', inplace=True)
-	print('again\n', covariance_matrix)
-	"""		
 
 	# using numpy's eig function to compute eigenvector and eigenvalues of covariance matrix
 	eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
