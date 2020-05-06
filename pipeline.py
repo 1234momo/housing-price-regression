@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.preprocessing import LabelBinarizer, MultiLabelBinarizer
+from sklearn.preprocessing import LabelEncoder, LabelBinarizer, MultiLabelBinarizer
 rooms_ix, bedrooms_ix, population_ix, household_ix = 3, 4, 5, 6
 
 """
@@ -38,6 +38,18 @@ class DataFrameSelector(BaseEstimator, TransformerMixin):
 	def fit(self, X, y=None): return self
 	
 	def transform(self, X): return X[self.feature_names].values
+
+
+# This class simply encodes labels to values between 0 and n-1
+class MyLabelEncoder(TransformerMixin):
+	def __init__(self, *args, **kwargs):
+		self.encoder = LabelEncoder(*args, **kwargs)
+	
+	def fit(self, x, y=0):
+		self.encoder.fit(x)
+		return self
+
+	def transform(self, x, y=0): return self.encoder.transform(x)
 
 
 """ 

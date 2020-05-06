@@ -1,21 +1,24 @@
 import pandas as pd
 import numpy as np
 
+
 def get_eigenvalues(dataframe):
-	
+	"""
 	# Removing non-numeric columns (shallow copy should have been passed as param)
 	dataframe = np.delete(dataframe, 9, 1) # Deleting the ocean_proximity col
 	dataframe = np.delete(dataframe, 10, 1) # Deleting the address col
+	"""
 
 	# calculate the mean of each column (feature)
-	mean = np.mean(dataframe, axis=1)
+	mean = np.mean(dataframe.T, axis=1)
+#	print(mean)
 
 	# center columns by subtracting column means
-	centered_matrix = (dataframe.T - mean)
+	centered_matrix = (dataframe - mean)
 	print(f'Matrix after centering:\n {centered_matrix}')
 	
 	# calculate covariance matrix of centered matrix
-	covariance_matrix = np.cov(centered_matrix.T, rowvar=0, bias=1)
+	covariance_matrix = np.cov(centered_matrix.T)
 	print(f'Computed covariance matrix:\n {covariance_matrix}')
 
 	# using numpy's eig function to compute eigenvector and eigenvalues of covariance matrix
