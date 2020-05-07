@@ -86,11 +86,6 @@ housing_data['bedrooms_per_room'] = housing_data['total_bedrooms'] / housing_dat
 housing_data['population_per_household'] = housing_data['population'] / housing_data['households']
 #print(housing_data.head(3))
 
-"""
-# Deleting the lowest correlated features
-housing_data = housing_data.drop(['total_rooms', 'housing_median_age', 'households', 'total_bedrooms', 'population'], axis = 1)
-"""
-
 # Seeing correlation of 'medial house value' with other columns again (Pearson's correlation coefficient)
 corr_matrix = housing_data.corr()
 print('\nCorrelation Matrix after Data Preprocessing')
@@ -99,7 +94,7 @@ print(corr_matrix['zestimate/tax_value'].sort_values(ascending=False))
 # Creating a training and testing set
 # housing_data = strat_train_set.drop('median_house_value', axis=1)
 # housing_labels = strat_train_set['median_house_value'].copy()
-housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
+# housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
 housing_labels = strat_train_set['zestimate/tax_value'].copy()
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
@@ -127,20 +122,6 @@ numerical_pipeline = Pipeline([
 	('std_scaler', StandardScaler())
 ])
 
-
-
-encoder = LabelEncoder()
-imputer = SimpleImputer(strategy='median')
-
-housing_data['ocean_proximity'] = encoder.fit_transform(housing_data['ocean_proximity'])
-housing_data['address'] = encoder.fit_transform(housing_data['address'])
-housing_data = pd.DataFrame(imputer.fit_transform(housing_data))
-
-# Using PCA to view eigenvalues in descending order of all columns (variance)
-print('\nPCA after Data Preprocessing')
-get_eigenvalues(housing_data)
-
-"""
 # Adding componenets/classes to categorical pipeline
 categorical_pipeline = Pipeline([
 	('selector', DataFrameSelector(categorical_features)),
@@ -156,12 +137,28 @@ multilabel_categorical_pipeline = Pipeline([
 # Full pipeline
 full_pipeline = FeatureUnion(transformer_list=[
 	('num_pipeline', numerical_pipeline),
-#	('cat_pipeline', categorical_pipeline),
-#	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
+	('cat_pipeline', categorical_pipeline),
+	('multilabel_cat_pipeline', multilabel_categorical_pipeline)
 ])
 
 housing_data_prepared = full_pipeline.fit_transform(housing_data)
 print('\nDataframe after Preprocessing Pipeline:\n', housing_data_prepared)
-"""
 
+
+
+
+
+"""
+# PCA Eigenvalue Analysis
+encoder = LabelEncoder()
+imputer = SimpleImputer(strategy='median')
+
+housing_data['ocean_proximity'] = encoder.fit_transform(housing_data['ocean_proximity'])
+housing_data['address'] = encoder.fit_transform(housing_data['address'])
+housing_data = pd.DataFrame(imputer.fit_transform(housing_data))
+
+# Using PCA to view eigenvalues in descending order of all columns (variance)
+print('\nPCA after Data Preprocessing')
+get_eigenvalues(housing_data)
+"""
 #plt.show()

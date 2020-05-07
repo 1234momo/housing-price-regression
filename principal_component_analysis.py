@@ -11,7 +11,6 @@ def get_eigenvalues(dataframe):
 
 	# calculate the mean of each column (feature)
 	mean = np.mean(dataframe.T, axis=1)
-#	print(mean)
 
 	# center columns by subtracting column means
 	centered_matrix = (dataframe - mean)
