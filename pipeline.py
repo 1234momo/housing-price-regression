@@ -11,22 +11,19 @@ rooms_ix, bedrooms_ix, population_ix, household_ix = 3, 4, 5, 6
 		- we want to try different things
 """
 
-# This class adds new features to our pipeline
+# This class adds new features to our pipeline (just need to toggle the boolean if want to exclude)
 class FeatureAdder(BaseEstimator, TransformerMixin):
-	def __init__(self, add_bedrooms_per_room = True):
-		self.add_bedrooms_per_room = add_bedrooms_per_room
+	def __init__(self, add_features = True):
+		self.add_features = add_features
 
 	def fit(self, X, y=None): return self
 
-	def transform(self, X, y=None):
-		rooms_per_household = X[:, rooms_ix] / X[:, household_ix]
-		population_per_household = X[:, population_ix] / X[:, household_ix]
-		
-		if self.add_bedrooms_per_room:
+	def transform(self, X, y=None):	
+		if self.add_features:
+			rooms_per_household = X[:, rooms_ix] / X[:, household_ix]
+			population_per_household = X[:, population_ix] / X[:, household_ix]
 			bedrooms_per_room = X[:, bedrooms_ix] / X[:, rooms_ix]
 			return np.c_[X, rooms_per_household, population_per_household, bedrooms_per_room]
-		else:
-			return np.c_[X, rooms_per_household, population_per_household]
 
 
 # This class allows us to select entire or partial dataframes

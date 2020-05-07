@@ -21,12 +21,7 @@ import seaborn as sns
 from preprocessing import *
 sns.set()
 
-# Casting from numpy.ndarray to Pandas DataFrame 
-# data = pd.DataFrame(housing_data_prepared)
-# Split data into training and validation set
-# X = data.drop('zestimate/tax_value', axis=1)
-# y = data['zestimate/tax_value']
-
+# Train/Test split
 X_train, X_test, y_train, y_test = train_test_split(housing_data_prepared, housing_labels, random_state=42, test_size=0.4)
 
 # PCA to remove noise and reduce overfitting

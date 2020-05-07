@@ -28,7 +28,7 @@ from sklearn.preprocessing import LabelEncoder, LabelBinarizer, MultiLabelBinari
 pd.set_option('display.max_columns', None)
 # pd.set_option('display.max_rows', None)
 
-# Loading dataset
+# Load one of the various datasets
 # housing_data = pd.read_csv('./csv/housing.csv')
 # housing_data = pd.read_csv('./csv/housing copy.csv')
 housing_data = pd.read_csv('./csv/combined_data.csv')
@@ -44,8 +44,8 @@ housing_data.hist(bins=50, figsize=(15,15))
 # Discretization of continuous feature to perform stratified sampling technique (continuous features can't extract a mode for stratisfied sampling)
 housing_data['median_income_cat'] = np.ceil(housing_data['median_income'] / 1.5)
 housing_data['median_income_cat'].where(housing_data['median_income_cat'] < 5, 5.0, inplace=True)
-# print('median_income_cat\n', housing_data['median_income_cat'])
-# print('unique vals in cat\n', np.unique(housing_data['median_income_cat']))
+print('median_income_cat\n', housing_data['median_income_cat'])
+print('unique vals in cat\n', np.unique(housing_data['median_income_cat']))
 
 # STRATIFIED SAMPLING TECHNIQUE
 stratified_split = StratifiedShuffleSplit(n_splits=3, test_size=0.2, random_state=42)
@@ -78,7 +78,7 @@ print(corr_matrix['median_house_value'].sort_values(ascending=False))
 
 
 # Seeing correlation between median house value and the median house income
-#housing_data.plot(kind='scatter', x='median_income', y='median_house_value', alpha=0.1, figsize=(8,5))
+housing_data.plot(kind='scatter', x='median_income', y='median_house_value', alpha=0.1, figsize=(8,5))
 
 # DATA PREPROCESSING: correcting 'total_rooms', 'total_bedroom', and 'population' from units of per block to per household
 housing_data['rooms_per_household'] = housing_data['total_rooms'] / housing_data['households']
@@ -98,11 +98,9 @@ housing_data = strat_train_set.drop('zestimate/tax_value', axis=1)
 housing_labels = strat_train_set['zestimate/tax_value'].copy()
 
 # DATA PREPROCESSING: imputing missing values in total_bedrooms column with median value
-# imputer = SimpleImputer(strategy='median')
 housing_num = housing_data.drop('ocean_proximity', axis=1) 
 housing_num = housing_num.drop('address', axis=1) 
 # housing_num = housing_num.drop('city', axis=1) 
-#print(housing_num.head())
 
 
 # Defining the Preprocessing Pipeline
@@ -111,8 +109,6 @@ categorical_features = ['ocean_proximity']
 multilabel_categorical_features = ['address']
 # multilabel_categorical_features = ['city']
 
-feature_adder = FeatureAdder(add_bedrooms_per_room = False)
-housing_extra_features = feature_adder.transform(housing_data.values)
 
 # Adding componenets/classes to numerical pipeline
 numerical_pipeline = Pipeline([
@@ -145,9 +141,6 @@ housing_data_prepared = full_pipeline.fit_transform(housing_data)
 print('\nDataframe after Preprocessing Pipeline:\n', housing_data_prepared)
 
 
-
-
-
 """
 # PCA Eigenvalue Analysis
 encoder = LabelEncoder()
@@ -161,4 +154,5 @@ housing_data = pd.DataFrame(imputer.fit_transform(housing_data))
 print('\nPCA after Data Preprocessing')
 get_eigenvalues(housing_data)
 """
-#plt.show()
+
+plt.show()

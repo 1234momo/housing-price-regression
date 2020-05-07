@@ -3,11 +3,6 @@ import numpy as np
 
 
 def get_eigenvalues(dataframe):
-	"""
-	# Removing non-numeric columns (shallow copy should have been passed as param)
-	dataframe = np.delete(dataframe, 9, 1) # Deleting the ocean_proximity col
-	dataframe = np.delete(dataframe, 10, 1) # Deleting the address col
-	"""
 
 	# calculate the mean of each column (feature)
 	mean = np.mean(dataframe.T, axis=1)
