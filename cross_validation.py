@@ -9,7 +9,7 @@ from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import cross_val_score
 
 from preprocessing import *
-# from house_estimate import * 
+
 
 # Linear Regression with K-fold cross-validation (across 10 folds)
 linear_regression = LinearRegression()
