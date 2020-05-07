@@ -1,7 +1,6 @@
 // Initial setup variables
 const csvToJson = require('convert-csv-to-json'); 
 const axios = require('axios').default;
-let API_KEY = "AIzaSyD-Fwlf4-W04pkqjQly5kcP3VNfRSGWn2w";
 var stringify = require('csv-stringify');
 var fs = require('fs');
 
@@ -38,15 +37,15 @@ function main () {
       }  
 
       // Save JSON into CSV
-        stringify(foundAddresses.addresses, function(err, output) {
-          fs.writeFile('name2.csv', output, 'utf8', function(err) {
-            if (err) {
-              console.log('Some error occured - file either not saved or corrupted file saved.');
-            } else {
-              console.log('It\'s saved!');
-            }
-          });
+      stringify(foundAddresses.addresses, function(err, output) {
+        fs.writeFile('name2.csv', output, 'utf8', function(err) {
+          if (err) {
+            console.log('Some error occured - file either not saved or corrupted file saved.');
+          } else {
+            console.log('It\'s saved!');
+          }
         });
+      });
     })
     .catch((error) => {});
   }
